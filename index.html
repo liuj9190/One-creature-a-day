@@ -93,6 +93,14 @@
     #next:hover {
       background: #1e7e34;
     }
+    #more-info {
+  
+        font-size: 0.8em; /* 縮小字體 */
+  
+        color: #003366; /* 深藍色 */
+  
+        margin-top: 10px; /* 增加與其他元素的間距 */
+}
 
     /* 新增樣式 */
     .correct {
@@ -144,12 +152,12 @@
   <div id="result-container">
     <div id="result-text"></div>
     <div id="correct-answer"></div>
-    <div id="book-title1"><br>新書推薦：<br></div>
+    <div id="book-title1">新書推薦：</div>
     <div id="book-title2">一天一則，發現366個生物有趣知識</div>
     <a id="book-link" href="https://www.morningstar.com.tw/bookinfo.aspx?bookno=0165042" target="_blank">
       <img id="book-cover" alt="書籍封面">
     </a>
-    <div id="more-info">點擊圖片了解更多</div>
+    <div id="more-info">點擊書籍了解更多</div>
     <button id="next">下一題</button>
   </div>
 
@@ -238,7 +246,7 @@
       resultText.textContent = isCorrect ? "答對了！" : "答錯了！";
 
       correctAnswer.innerHTML = 
-        `<span style="color: brown;">正確答案：${q.options[q.answer]}。</span><br><br>` + 
+        `<span style="color: brown;">正確答案：${q.options[q.answer]}。</span><br>` + 
         `${q.explanation}`;
       bookCover.src = q.bookCover;
 
