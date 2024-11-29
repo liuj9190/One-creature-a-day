@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
@@ -16,6 +16,7 @@
       background-size: cover;
       background-position: center;
       text-align: center;
+      box-sizing: border-box;
     }
     #game-container, #result-container {
       display: none;
@@ -26,6 +27,7 @@
       width: 80%;
       max-width: 500px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
     }
     #game-container.active, #result-container.active {
       display: block;
@@ -70,10 +72,11 @@
     #book-title2 {
       font-weight: bold;
       margin-bottom: 10px;
-      color: 333e;
+      color: #333e;
     }
     #book-cover {
       max-width: 100%;
+      height: auto;
       margin-bottom: 20px;
     }
     #next {
@@ -97,6 +100,36 @@
     .incorrect {
       color: red;
       font-weight: bold;
+    }
+
+    /* 媒體查詢：適應不同螢幕大小 */
+    @media (max-width: 600px) {
+      #question {
+        font-size: 1.2em;
+      }
+      .option {
+        font-size: 0.9em;
+      }
+      #result-text {
+        font-size: 1.2em;
+      }
+      #next {
+        font-size: 0.9em;
+      }
+    }
+    @media (max-width: 400px) {
+      #question {
+        font-size: 1em;
+      }
+      .option {
+        font-size: 0.8em;
+      }
+      #result-text {
+        font-size: 1em;
+      }
+      #next {
+        font-size: 0.8em;
+      }
     }
   </style>
 </head>
@@ -128,11 +161,11 @@
         background: "background1.jpg",
         bookCover: "book1.jpg"
       },
-    {
+      {
         question: "有「螃蟹之王」之稱的北海道帝王蟹，腳張開之後有多長呢？",
         options: ["1. 25公分", "2. 50公分", "3. 一公尺以上"],
         answer: 2, // 第三個選項
-        explanation: "北海道帝王蟹跟成人的上半身差不多大。",
+        explanation: "北海道帝王蟹跟成人的上半身差不多大。順便一提，牠的甲殼大概是25公分，腳非常的長。",
         background: "background1.jpg",
         bookCover: "book1.jpg"
       },
@@ -152,7 +185,7 @@
         background: "background1.jpg",
         bookCover: "book1.jpg"
       },
-     {
+      {
         question: "白色北極熊的皮膚 是什麼顏色呢？",
         options: ["1. 白色", "2. 黑色", "3. 皮膚色"],
         answer: 1,
@@ -202,7 +235,7 @@
       resultText.className = isCorrect ? "correct" : "incorrect";
       resultText.textContent = isCorrect ? "答對了！" : "答錯了！";
 
-     correctAnswer.innerHTML = 
+      correctAnswer.innerHTML = 
         `<span style="color: brown;">正確答案：${q.options[q.answer]}。</span><br><br>` + 
         `${q.explanation}`;
       bookCover.src = q.bookCover;
