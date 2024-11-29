@@ -28,6 +28,8 @@
       max-width: 500px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       box-sizing: border-box;
+      z-index: 10;  /* 保证不会被其他元素遮挡 */
+      position: relative; /* 使其可以在屏幕上正确显示 */
     }
     #game-container.active, #result-container.active {
       display: block;
