@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一天一則，發現366個生物有趣知識</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+    }
+    #game-container, #result-container {
+      display: none;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 20px;
+      width: 80%;
+      max-width: 500px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    #game-container.active, #result-container.active {
+      display: block;
+    }
+   
+    #question {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+    .option {
+      display: block;
+      width: 80%;
+      margin: 10px auto;
+      background: #007BFF;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      text-align: center;
+    }
+    .option:hover {
+      background: #0056b3;
+    }
+    #result-text {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    #correct-answer {
+      margin-bottom: 20px;
+      font-size: 1em;
+      color: #333;
+    }
+ 
+    #book-title1 {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: blue;
+    }
+    #book-title2 {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: 333e;
+    }
+    #book-cover {
+      max-width: 100%;
+      margin-bottom: 20px;
+    }
+    #next {
+      padding: 10px 20px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    #next:hover {
+      background: #1e7e34;
+    }
+
+    /* 新增樣式 */
+    .correct {
+      color: blue;
+      font-weight: bold;
+    }
+    .incorrect {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body id="background">
+  <div id="game-container">
+    <div id="question"></div>
+    <div id="options"></div>
+  </div>
+
+  <div id="result-container">
+    <div id="result-text"></div>
+    <div id="correct-answer"></div>
+    <div id="book-title1"><br>新書推薦：<br></div>
+    <div id="book-title2">一天一則，發現366個生物有趣知識</div>
+    <a id="book-link" href="https://www.morningstar.com.tw/bookinfo.aspx?bookno=0165042" target="_blank">
+      <img id="book-cover" alt="書籍封面">
+    </a>
+    <div id="more-info">點擊圖片了解更多</div>
+    <button id="next">下一題</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "老鷹的眼力有多好呢？",
+        options: ["1. 是人類的2倍", "2. 是人類的4倍", "3. 人類的8倍"],
+        answer: 2, // 第三個選項
+        explanation: "老鷹的眼睛非常敏銳，甚至能夠看見離牠1.5公里遠的野兔。",
+        background: "background1.jpg",
+        bookCover: "book1.jpg"
+      },
+    {
+        question: "有「螃蟹之王」之稱的北海道帝王蟹，腳張開之後有多長呢？",
+        options: ["1. 25公分", "2. 50公分", "3. 一公尺以上"],
+        answer: 2, // 第三個選項
+        explanation: "北海道帝王蟹跟成人的上半身差不多大。",
+        background: "background1.jpg",
+        bookCover: "book1.jpg"
+      },
+      {
+        question: "蛇從牙齒釋放的毒液是從什麼東西變來的呢？",
+        options: ["1. 草的汁液", "2. 其他動物的毒", "3. 自己的唾液"],
+        answer: 2,
+        explanation: "毒蛇的毒是從唾液變化而來的",
+        background: "background1.jpg",
+        bookCover: "book1.jpg"
+      },
+      {
+        question: "池塘裡的烏龜爬上陸地之後在 做什麼呢？",
+        options: ["1. 曬太陽來溫暖身體", "2. 尋找食物", "3. 爭奪領地"],
+        answer: 0,
+        explanation: "烏龜無法靠自己的身體調節體溫，所以要曬太陽來取暖，這個行為被稱作『曬甲殼』",
+        background: "background1.jpg",
+        bookCover: "book1.jpg"
+      },
+     {
+        question: "白色北極熊的皮膚 是什麼顏色呢？",
+        options: ["1. 白色", "2. 黑色", "3. 皮膚色"],
+        answer: 1,
+        explanation: "黑色是容易吸收熱的顏色，因為北極熊的毛是透明的，所以日光容易照到皮膚上。",
+        background: "background1.jpg",
+        bookCover: "book1.jpg"
+      },
+    ];
+
+    let remainingQuestions = [...questions];
+    const gameContainer = document.getElementById("game-container");
+    const resultContainer = document.getElementById("result-container");
+    const questionElement = document.getElementById("question");
+    const optionsElement = document.getElementById("options");
+    const resultText = document.getElementById("result-text");
+    const correctAnswer = document.getElementById("correct-answer");
+    const bookCover = document.getElementById("book-cover");
+    const nextButton = document.getElementById("next");
+    const background = document.getElementById("background");
+
+    function loadRandomQuestion() {
+      if (remainingQuestions.length === 0) {
+        questionElement.textContent = "遊戲結束！";
+        optionsElement.innerHTML = "";
+        return;
+      }
+      const randomIndex = Math.floor(Math.random() * remainingQuestions.length);
+      const q = remainingQuestions.splice(randomIndex, 1)[0];
+
+      questionElement.textContent = q.question;
+      optionsElement.innerHTML = "";
+      background.style.backgroundImage = `url(${q.background})`;
+
+      q.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.className = "option";
+        button.onclick = () => checkAnswer(index, q);
+        optionsElement.appendChild(button);
+      });
+    }
+
+    function checkAnswer(selected, q) {
+      const isCorrect = selected === q.answer;
+
+      // 動態套用樣式
+      resultText.className = isCorrect ? "correct" : "incorrect";
+      resultText.textContent = isCorrect ? "答對了！" : "答錯了！";
+
+     correctAnswer.innerHTML = 
+        `<span style="color: brown;">正確答案：${q.options[q.answer]}。</span><br><br>` + 
+        `${q.explanation}`;
+      bookCover.src = q.bookCover;
+
+      gameContainer.classList.remove("active");
+      resultContainer.classList.add("active");
+    }
+
+    nextButton.onclick = () => {
+      loadRandomQuestion();
+      gameContainer.classList.add("active");
+      resultContainer.classList.remove("active");
+    };
+
+    loadRandomQuestion();
+    gameContainer.classList.add("active");
+  </script>
+</body>
+</html>
